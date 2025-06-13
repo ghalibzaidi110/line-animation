@@ -3,8 +3,9 @@ import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
 function SnakeLine() {
-  const lineRef = useRef<THREE.Line | null>(null)
+  const tubeRef = useRef<THREE.Mesh | null>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const tubeRadius = 0.2 // Adjust this value to change the thickness of the line
 
   // Define the curvy path
   const curve = useMemo(() => {
@@ -46,29 +47,39 @@ function SnakeLine() {
   }, [])
 
   useFrame(() => {
-    if (lineRef.current) {
+    if (tubeRef.current) {
       const headIndex = Math.floor(scrollProgress * fullPoints.length)
       const tailLength = 1000
 
       const tailIndex = Math.max(0, headIndex - tailLength)
       const visiblePoints = fullPoints.slice(tailIndex, headIndex)
 
-      const geometry = new THREE.BufferGeometry().setFromPoints(visiblePoints)
-      lineRef.current.geometry.dispose()
-      lineRef.current.geometry = geometry
+      // Create a new curve from the visible points
+      const visibleCurve = new THREE.CatmullRomCurve3(visiblePoints)
+      
+      // Create a new tube geometry
+      const tubeGeometry = new THREE.TubeGeometry(visibleCurve, 64, tubeRadius, 8, false)
+      
+      // Update the mesh
+      tubeRef.current.geometry.dispose()
+      tubeRef.current.geometry = tubeGeometry
     }
   })
 
-  // Initialize line once (with empty points)
+  // Initialize tube once (with empty points)
   const initialGeometry = useMemo(() => {
-    const points = [new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0)]
-    return new THREE.BufferGeometry().setFromPoints(points)
+    const emptyCurve = new THREE.CatmullRomCurve3([
+      new THREE.Vector3(0, 0, 0),
+      new THREE.Vector3(0, 0, 0)
+    ])
+    return new THREE.TubeGeometry(emptyCurve, 1, tubeRadius, 8, false)
   }, [])
 
   return (
-    <primitive
-      object={new THREE.Line(initialGeometry, new THREE.LineBasicMaterial({ color: 'black' }))}
-      ref={lineRef}
+    <mesh
+      ref={tubeRef}
+      geometry={initialGeometry}
+      material={new THREE.MeshBasicMaterial({ color: 'black' })}
     />
   )
 }
