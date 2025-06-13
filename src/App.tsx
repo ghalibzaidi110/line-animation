@@ -58,7 +58,7 @@ function SnakeLine() {
       const visibleCurve = new THREE.CatmullRomCurve3(visiblePoints)
       
       // Create a new tube geometry
-      const tubeGeometry = new THREE.TubeGeometry(visibleCurve, 64, tubeRadius, 8, false)
+      const tubeGeometry = new THREE.TubeGeometry(visibleCurve, 256, tubeRadius, 32, false)
       
       // Update the mesh
       tubeRef.current.geometry.dispose()
@@ -72,7 +72,7 @@ function SnakeLine() {
       new THREE.Vector3(0, 0, 0),
       new THREE.Vector3(0, 0, 0)
     ])
-    return new THREE.TubeGeometry(emptyCurve, 1, tubeRadius, 8, false)
+    return new THREE.TubeGeometry(emptyCurve, 256, tubeRadius, 32, false)
   }, [])
 
   return (
