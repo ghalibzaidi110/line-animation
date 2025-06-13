@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
+import { EffectComposer, Bloom } from '@react-three/postprocessing'
 
 function SnakeLine() {
   const tubeRef = useRef<THREE.Mesh | null>(null)
+  const sphereRef = useRef<THREE.Mesh | null>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
   const tubeRadius = 0.2 // Adjust this value to change the thickness of the line
 
@@ -47,7 +49,7 @@ function SnakeLine() {
   }, [])
 
   useFrame(() => {
-    if (tubeRef.current) {
+    if (tubeRef.current && sphereRef.current) {
       const headIndex = Math.floor(scrollProgress * fullPoints.length)
       const tailLength = 1000
 
@@ -63,6 +65,12 @@ function SnakeLine() {
       // Update the mesh
       tubeRef.current.geometry.dispose()
       tubeRef.current.geometry = tubeGeometry
+
+      // Update sphere position to follow the head
+      if (visiblePoints.length > 0) {
+        const headPosition = visiblePoints[visiblePoints.length - 1]
+        sphereRef.current.position.copy(headPosition)
+      }
     }
   })
 
@@ -76,11 +84,20 @@ function SnakeLine() {
   }, [])
 
   return (
-    <mesh
-      ref={tubeRef}
-      geometry={initialGeometry}
-      material={new THREE.MeshBasicMaterial({ color: '#00b7ca' })}
-    />
+    <>
+      <mesh
+        ref={tubeRef}
+        geometry={initialGeometry}
+        material={new THREE.MeshBasicMaterial({ color: '#00b7ca' })}
+      />
+      <mesh
+        ref={sphereRef}
+        position={[0, 0, 0]}
+      >
+        <sphereGeometry args={[tubeRadius, 32, 32]} />
+        <meshBasicMaterial color="#00b7ca" />
+      </mesh>
+    </>
   )
 }
 
@@ -90,6 +107,13 @@ function App() {
       <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100vh' }}>
         <Canvas camera={{ position: [0, 0, 10] }}>
           <SnakeLine />
+          <EffectComposer>
+            <Bloom 
+              intensity={3.0} 
+              luminanceThreshold={0.1}
+              luminanceSmoothing={0.5}
+            />
+          </EffectComposer>
         </Canvas>
       </div>
     </div>
