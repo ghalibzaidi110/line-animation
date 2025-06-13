@@ -11,24 +11,24 @@ function SnakeLine() {
   const curve = useMemo(() => {
     return new THREE.CatmullRomCurve3(
         [
-            new THREE.Vector3(-10, 6, 0),
-            new THREE.Vector3(-2.5, 6, 0),
-            new THREE.Vector3(1, 4.75, 0),
-            new THREE.Vector3(2.5, 3.5, 0),
-            new THREE.Vector3(3, 1.5, 0),
-            new THREE.Vector3(1.5,-1.5, 0),
-            new THREE.Vector3(-1.5, -2, 0),
-            new THREE.Vector3(-4, 0, 0),
-            new THREE.Vector3(-4.45, 1.5, 0),
-            new THREE.Vector3(-4.45, 2.1, 0),
-            new THREE.Vector3(-4.2, 3, 0),
-            new THREE.Vector3(-3, 4, 0),
-            new THREE.Vector3(-1, 4.7, 0),
-            new THREE.Vector3(1, 4.7, 0),
-            new THREE.Vector3(3, 4, 0),
-            new THREE.Vector3(4, 3, 0),
-            new THREE.Vector3(6.5, -5, 0),
-            new THREE.Vector3(10, -5.5, 0)
+            new THREE.Vector3(-25, 6, 0),
+            new THREE.Vector3(-7.5, 6, 0),
+            new THREE.Vector3(-4, 4.75, 0),
+            new THREE.Vector3(-2.5, 3.5, 0),
+            new THREE.Vector3(-2, 1.5, 0),
+            new THREE.Vector3(-3.5, -1.5, 0),
+            new THREE.Vector3(-6.5, -2, 0),
+            new THREE.Vector3(-9, 0, 0),
+            new THREE.Vector3(-9.45, 1.5, 0),
+            new THREE.Vector3(-9.45, 2.1, 0),
+            new THREE.Vector3(-9.2, 3, 0),
+            new THREE.Vector3(-8, 4, 0),
+            new THREE.Vector3(-6, 4.7, 0),
+            new THREE.Vector3(-4, 4.7, 0),
+            new THREE.Vector3(-2, 4, 0),
+            new THREE.Vector3(-1, 3, 0),
+            new THREE.Vector3(1.5, -5, 0),
+            new THREE.Vector3(20, -5.5, 0)
           ]
     )
   }, [])
