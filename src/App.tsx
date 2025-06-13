@@ -77,9 +77,26 @@ function SnakeLine() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)
-      setScrollProgress(scrollPercent)
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+      const currentScroll = window.scrollY
+      
+      // Add a small buffer to ensure we reach the start
+      const buffer = 5 // pixels
+      const adjustedScroll = Math.max(0, currentScroll - buffer)
+      
+      // Calculate progress with more precision
+      const progress = Math.min(Math.max(adjustedScroll / scrollHeight, 0), 1)
+      
+      // Ensure we reach the start
+      if (currentScroll <= buffer) {
+        setScrollProgress(0)
+      } else {
+        setScrollProgress(progress)
+      }
     }
+
+    // Initial scroll position
+    handleScroll()
 
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
@@ -88,23 +105,24 @@ function SnakeLine() {
   useFrame(() => {
     if (tubeRef.current && sphereRef.current) {
       const headIndex = Math.floor(scrollProgress * fullPoints.length)
-      const tailLength = 1000
+      const tailLength = Math.min(1000, fullPoints.length)
 
-      const tailIndex = Math.max(0, headIndex - tailLength)
-      const visiblePoints = fullPoints.slice(tailIndex, headIndex)
+      // Ensure we always show at least the start point when near the beginning
+      const tailIndex = scrollProgress < 0.01 ? 0 : Math.max(0, headIndex - tailLength)
+      const visiblePoints = fullPoints.slice(tailIndex, headIndex + 1)
 
-      // Create a new curve from the visible points
-      const visibleCurve = new THREE.CatmullRomCurve3(visiblePoints)
-      
-      // Create a new tube geometry
-      const tubeGeometry = new THREE.TubeGeometry(visibleCurve, 256, tubeRadius, 32, false)
-      
-      // Update the mesh
-      tubeRef.current.geometry.dispose()
-      tubeRef.current.geometry = tubeGeometry
-
-      // Update sphere position to follow the head
       if (visiblePoints.length > 0) {
+        // Create a new curve from the visible points
+        const visibleCurve = new THREE.CatmullRomCurve3(visiblePoints)
+        
+        // Create a new tube geometry
+        const tubeGeometry = new THREE.TubeGeometry(visibleCurve, 256, tubeRadius, 32, false)
+        
+        // Update the mesh
+        tubeRef.current.geometry.dispose()
+        tubeRef.current.geometry = tubeGeometry
+
+        // Update sphere position to follow the head
         const headPosition = visiblePoints[visiblePoints.length - 1]
         sphereRef.current.position.copy(headPosition)
       }
