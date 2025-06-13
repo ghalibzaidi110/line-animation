@@ -79,7 +79,7 @@ function SnakeLine() {
     <mesh
       ref={tubeRef}
       geometry={initialGeometry}
-      material={new THREE.MeshBasicMaterial({ color: 'black' })}
+      material={new THREE.MeshBasicMaterial({ color: '#00b7ca' })}
     />
   )
 }
