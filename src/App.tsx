@@ -7,36 +7,73 @@ function SnakeLine() {
   const tubeRef = useRef<THREE.Mesh | null>(null)
   const sphereRef = useRef<THREE.Mesh | null>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
-  const tubeRadius = 0.2 // Adjust this value to change the thickness of the line
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight
+  })
 
-  // Define the curvy path
+  // Calculate responsive values
+  const tubeRadius = useMemo(() => {
+    return dimensions.width < 768 ? 0.05 : 0.2
+  }, [dimensions.width])
+
+  // Define the curvy path with responsive points
   const curve = useMemo(() => {
+    let scale, startX, endX;
+    
+    if (dimensions.width < 768) {
+      // Mobile scaling (keep current behavior)
+      const minWidth = 320
+      const maxWidth = 768
+      scale = Math.max(0.2, Math.min(1, (dimensions.width - minWidth) / (maxWidth - minWidth)))
+      startX = -25 * scale
+      endX = 20 * scale
+    } else {
+      // Desktop scaling (fixed values)
+      scale = 1
+      startX = -25
+      endX = 20
+    }
+    
     return new THREE.CatmullRomCurve3(
-        [
-            new THREE.Vector3(-25, 6, 0),
-            new THREE.Vector3(-7.5, 6, 0),
-            new THREE.Vector3(-4, 4.75, 0),
-            new THREE.Vector3(-2.5, 3.5, 0),
-            new THREE.Vector3(-2, 1.5, 0),
-            new THREE.Vector3(-3.5, -1.5, 0),
-            new THREE.Vector3(-6.5, -2, 0),
-            new THREE.Vector3(-9, 0, 0),
-            new THREE.Vector3(-9.45, 1.5, 0),
-            new THREE.Vector3(-9.45, 2.1, 0),
-            new THREE.Vector3(-9.2, 3, 0),
-            new THREE.Vector3(-8, 4, 0),
-            new THREE.Vector3(-6, 4.7, 0),
-            new THREE.Vector3(-4, 4.7, 0),
-            new THREE.Vector3(-2, 4, 0),
-            new THREE.Vector3(-1, 3, 0),
-            new THREE.Vector3(1.5, -5, 0),
-            new THREE.Vector3(20, -5.5, 0)
-          ]
+      [
+        new THREE.Vector3(startX, 6 * scale, 0),
+        new THREE.Vector3(-7.5 * scale, 6 * scale, 0),
+        new THREE.Vector3(-4 * scale, 4.75 * scale, 0),
+        new THREE.Vector3(-2.5 * scale, 3.5 * scale, 0),
+        new THREE.Vector3(-2 * scale, 1.5 * scale, 0),
+        new THREE.Vector3(-3.5 * scale, -1.5 * scale, 0),
+        new THREE.Vector3(-6.5 * scale, -2 * scale, 0),
+        new THREE.Vector3(-9 * scale, 0, 0),
+        new THREE.Vector3(-9.45 * scale, 1.5 * scale, 0),
+        new THREE.Vector3(-9.45 * scale, 2.1 * scale, 0),
+        new THREE.Vector3(-9.2 * scale, 3 * scale, 0),
+        new THREE.Vector3(-8 * scale, 4 * scale, 0),
+        new THREE.Vector3(-6 * scale, 4.7 * scale, 0),
+        new THREE.Vector3(-4 * scale, 4.7 * scale, 0),
+        new THREE.Vector3(-2 * scale, 4 * scale, 0),
+        new THREE.Vector3(-1 * scale, 3 * scale, 0),
+        new THREE.Vector3(1.5 * scale, -5 * scale, 0),
+        new THREE.Vector3(endX, -5.5 * scale, 0)
+      ]
     )
-  }, [])
+  }, [dimensions.width])
 
   // Pre-compute all points on the curve
   const fullPoints = useMemo(() => curve.getPoints(200), [curve])
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      })
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     const handleScroll = () => {
