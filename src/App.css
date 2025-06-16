@@ -1,42 +1,85 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
+/* App container styles */
+.app-container {
+  position: relative;
+  width: 100%;
+  height: 200vh;
+  overflow-x: hidden;
+}
+
+/* Line animation background styles */
+.line-animation-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+  background: #1a1a1a;
+}
+
+/* Text animation styles */
+.text-main {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  min-height: 200vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  color: white;
   padding: 2rem;
+  overflow-y: auto;
+}
+
+.text-body {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0;
+  position: sticky;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.text-line {
+  font-size: 3.5rem;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0;
   text-align: center;
+  font-weight: 300;
+  white-space: normal;
+  word-wrap: break-word;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.word {
+  display: inline-block;
+  margin-right: 0.3rem;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.word span {
+  display: inline-block;
+  transition: opacity 0.3s ease;
+  will-change: opacity;
+}
+
+.letter {
+  display: inline-block;
+  color: white;
+  font-weight: 400;
+  transition: opacity 0.2s ease;
+  will-change: opacity;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .text-line {
+    font-size: 2.5rem;
   }
-  to {
-    transform: rotate(360deg);
+  
+  .text-body {
+    width: 95%;
+    padding: 1rem 0;
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
 }
