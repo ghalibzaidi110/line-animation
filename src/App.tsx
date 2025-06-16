@@ -1,6 +1,6 @@
 import React from 'react';
 import TextAnimation from './TextAnimation';
-import LineAnimation from './LineAnimation';
+import LineAnimation from './BytesPlatformAnimation';
 import './App.css';
 
 function App() {
