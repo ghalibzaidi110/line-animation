@@ -7,6 +7,7 @@ function SnakeLine() {
   const tubeRef = useRef<THREE.Mesh | null>(null)
   const sphereRef = useRef<THREE.Mesh | null>(null)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [targetProgress, setTargetProgress] = useState(0)
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
     height: window.innerHeight
@@ -39,21 +40,25 @@ function SnakeLine() {
       [
         new THREE.Vector3(startX, 6 * scale, 0),
         new THREE.Vector3(-7.5 * scale, 6 * scale, 0),
+        new THREE.Vector3(-5.5 * scale, 5.5 * scale, 0),
+        new THREE.Vector3(-4.7 * scale, 5.14 * scale, 0),
         new THREE.Vector3(-4 * scale, 4.75 * scale, 0),
-        new THREE.Vector3(-2.5 * scale, 3.5 * scale, 0),
+        new THREE.Vector3(-2.6 * scale, 3.5 * scale, 0),
         new THREE.Vector3(-2 * scale, 1.5 * scale, 0),
         new THREE.Vector3(-3.5 * scale, -1.5 * scale, 0),
         new THREE.Vector3(-6.5 * scale, -2 * scale, 0),
-        new THREE.Vector3(-9 * scale, 0, 0),
-        new THREE.Vector3(-9.45 * scale, 1.5 * scale, 0),
-        new THREE.Vector3(-9.45 * scale, 2.1 * scale, 0),
+        new THREE.Vector3(-8.9 * scale, 0, 0),
         new THREE.Vector3(-9.2 * scale, 3 * scale, 0),
-        new THREE.Vector3(-8 * scale, 4 * scale, 0),
-        new THREE.Vector3(-6 * scale, 4.7 * scale, 0),
-        new THREE.Vector3(-4 * scale, 4.7 * scale, 0),
-        new THREE.Vector3(-2 * scale, 4 * scale, 0),
+        new THREE.Vector3(-8 * scale, 4.5 * scale, 0),
+        new THREE.Vector3(-6 * scale, 5.2 * scale, 0),
+        new THREE.Vector3(-4 * scale, 5 * scale, 0),
+        new THREE.Vector3(-2 * scale, 4.1 * scale, 0),
         new THREE.Vector3(-1 * scale, 3 * scale, 0),
         new THREE.Vector3(1.5 * scale, -5 * scale, 0),
+        // new THREE.Vector3(7 * scale, 0 * scale, 0),
+        // new THREE.Vector3(6 * scale, -5 * scale, 0),
+        // new THREE.Vector3(5 * scale, -9 * scale, 0),
+        new THREE.Vector3(10 * scale, -5 * scale, 0),
         new THREE.Vector3(endX, -5.5 * scale, 0)
       ]
     )
@@ -87,11 +92,11 @@ function SnakeLine() {
       // Calculate progress with more precision
       const progress = Math.min(Math.max(adjustedScroll / scrollHeight, 0), 1)
       
-      // Ensure we reach the start
+      // Update target progress instead of direct scroll progress
       if (currentScroll <= buffer) {
-        setScrollProgress(0)
+        setTargetProgress(0)
       } else {
-        setScrollProgress(progress)
+        setTargetProgress(progress)
       }
     }
 
@@ -102,8 +107,12 @@ function SnakeLine() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useFrame(() => {
+  useFrame((state, delta) => {
     if (tubeRef.current && sphereRef.current) {
+      // Smoothly interpolate current progress towards target progress
+      const smoothingFactor = 0.5
+      setScrollProgress(prev => prev + (targetProgress - prev) * smoothingFactor)
+
       const headIndex = Math.floor(scrollProgress * fullPoints.length)
       const tailLength = Math.min(1000, fullPoints.length)
 
