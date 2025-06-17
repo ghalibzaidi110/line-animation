@@ -68,55 +68,58 @@ function TextLine() {
     
     // "t" - third letter
     x += letterSpacing
-    const tPoints: THREE.Vector3[] = []
+    const t1Points: THREE.Vector3[] = []
+    const t2Points: THREE.Vector3[] = []
+
     // Vertical line of t
-    tPoints.push(new THREE.Vector3(x +0.6, y + 3, 0))
-    tPoints.push(new THREE.Vector3(x +0.6, y + 2, 0))
-    tPoints.push(new THREE.Vector3(x +0.6, y + 1, 0))
-    tPoints.push(new THREE.Vector3(x +0.6, y, 0))
-    tPoints.push(new THREE.Vector3(x +0, y, 0))
-    tPoints.push(new THREE.Vector3(x +1.2, y, 0))
-    tPoints.push(new THREE.Vector3(x +0.6, y, 0))
-    tPoints.push(new THREE.Vector3(x +0.6, y - 1, 0))
-    tPoints.push(new THREE.Vector3(x +0.6, y - 2, 0))
-    tPoints.push(new THREE.Vector3(x +0.6, y - 3, 0))
+    t1Points.push(new THREE.Vector3(x +0.6, y + 3, 0))
+    t1Points.push(new THREE.Vector3(x +0.6, y + 2, 0))
+    t1Points.push(new THREE.Vector3(x +0.6, y + 1, 0))
+    t1Points.push(new THREE.Vector3(x +0.6, y - 1, 0))
+    t1Points.push(new THREE.Vector3(x +0.6, y - 2, 0))
+    t1Points.push(new THREE.Vector3(x +0.7, y - 3, 0))
+    t1Points.push(new THREE.Vector3(x +1.2, y - 3, 0))
+    t2Points.push(new THREE.Vector3(x +0.6, y, 0))
+    t2Points.push(new THREE.Vector3(x +0, y, 0))
+    t2Points.push(new THREE.Vector3(x +1.2, y, 0))
+    t2Points.push(new THREE.Vector3(x +0.6, y, 0))
+    
     
     // Break and start horizontal line
-    letters.push(new THREE.CatmullRomCurve3(tPoints))
+    letters.push(new THREE.CatmullRomCurve3(t2Points))
+    letters.push(new THREE.CatmullRomCurve3(t1Points))
     
     // "e" - fourth letter
     x += letterSpacing
     const ePoints: THREE.Vector3[] = []
-    ePoints.push(new THREE.Vector3(x + 1, y + 0.5, 0))
-    ePoints.push(new THREE.Vector3(x + 0.8, y + 1, 0))
-    ePoints.push(new THREE.Vector3(x + 0.4, y + 1, 0))
-    ePoints.push(new THREE.Vector3(x, y + 0.5, 0))
-    ePoints.push(new THREE.Vector3(x, y, 0))
-    ePoints.push(new THREE.Vector3(x, y - 0.5, 0))
-    ePoints.push(new THREE.Vector3(x + 0.4, y - 1, 0))
-    ePoints.push(new THREE.Vector3(x + 0.8, y - 1, 0))
-    ePoints.push(new THREE.Vector3(x + 1, y - 0.5, 0))
-    // Middle line
-    ePoints.push(new THREE.Vector3(x + 0.6, y, 0))
-    ePoints.push(new THREE.Vector3(x, y, 0))
+    ePoints.push(new THREE.Vector3(x + 0.1, y - 2, 0))
+    ePoints.push(new THREE.Vector3(x + 1.2, y - 0.2, 0))
+    ePoints.push(new THREE.Vector3(x + 0.1, y + 0, 0))
+    ePoints.push(new THREE.Vector3(x + 0, y - 2, 0))
+    ePoints.push(new THREE.Vector3(x + 0.1, y - 3, 0))
+    ePoints.push(new THREE.Vector3(x + 1.2, y - 3, 0))
+    ePoints.push(new THREE.Vector3(x + 1.2, y - 2, 0))
+  
     letters.push(new THREE.CatmullRomCurve3(ePoints))
     
     // "s" - fifth letter
     x += letterSpacing
     const sPoints: THREE.Vector3[] = []
-    sPoints.push(new THREE.Vector3(x + 1, y + 0.5, 0))
-    sPoints.push(new THREE.Vector3(x + 0.6, y + 1, 0))
-    sPoints.push(new THREE.Vector3(x + 0.2, y + 1, 0))
-    sPoints.push(new THREE.Vector3(x, y + 0.5, 0))
-    sPoints.push(new THREE.Vector3(x + 0.2, y + 0.2, 0))
-    sPoints.push(new THREE.Vector3(x + 0.6, y + 0.2, 0))
-    sPoints.push(new THREE.Vector3(x + 0.8, y, 0))
-    sPoints.push(new THREE.Vector3(x + 0.6, y - 0.2, 0))
-    sPoints.push(new THREE.Vector3(x + 0.2, y - 0.2, 0))
-    sPoints.push(new THREE.Vector3(x, y - 0.5, 0))
-    sPoints.push(new THREE.Vector3(x + 0.2, y - 1, 0))
-    sPoints.push(new THREE.Vector3(x + 0.6, y - 1, 0))
-    sPoints.push(new THREE.Vector3(x + 1, y - 0.5, 0))
+    sPoints.push(new THREE.Vector3(x + 1.2, y - 1.2, 0))
+    sPoints.push(new THREE.Vector3(x + 1.2, y - 0.2, 0))
+    sPoints.push(new THREE.Vector3(x + 0.1, y - 0.2, 0))
+    sPoints.push(new THREE.Vector3(x + 0.1, y - 1.2, 0))
+    sPoints.push(new THREE.Vector3(x + 0.6, y - 1.5, 0))
+    sPoints.push(new THREE.Vector3(x + 1.2, y - 1.7, 0))
+    sPoints.push(new THREE.Vector3(x + 1.2, y - 3, 0))
+    sPoints.push(new THREE.Vector3(x + 0.2, y - 3, 0))
+    sPoints.push(new THREE.Vector3(x + 0.1, y - 2, 0))
+    // sPoints.push(new THREE.Vector3(x + 0.6, y - 0.2, 0))
+    // sPoints.push(new THREE.Vector3(x + 0.2, y - 0.2, 0))
+    // sPoints.push(new THREE.Vector3(x, y - 0.5, 0))
+    // sPoints.push(new THREE.Vector3(x + 0.2, y - 1, 0))
+    // sPoints.push(new THREE.Vector3(x + 0.6, y - 1, 0))
+    // sPoints.push(new THREE.Vector3(x + 1, y - 0.5, 0))
     letters.push(new THREE.CatmullRomCurve3(sPoints))
     
     // Space before "platform"
@@ -170,20 +173,20 @@ function TextLine() {
     
     // "t" - fourth letter
     x += letterSpacing
-    const t2Points: THREE.Vector3[] = []
-    t2Points.push(new THREE.Vector3(x + 0.5, y + 2, 0))
-    t2Points.push(new THREE.Vector3(x + 0.5, y + 1, 0))
-    t2Points.push(new THREE.Vector3(x + 0.5, y, 0))
-    t2Points.push(new THREE.Vector3(x + 0.5, y - 1, 0))
-    t2Points.push(new THREE.Vector3(x + 0.5, y - 2, 0))
-    t2Points.push(new THREE.Vector3(x + 0.8, y - 2, 0))
-    t2Points.push(new THREE.Vector3(x + 1, y - 1.8, 0))
+    const t3Points: THREE.Vector3[] = []
+    t3Points.push(new THREE.Vector3(x + 0.5, y + 2, 0))
+    t3Points.push(new THREE.Vector3(x + 0.5, y + 1, 0))
+    t3Points.push(new THREE.Vector3(x + 0.5, y, 0))
+    t3Points.push(new THREE.Vector3(x + 0.5, y - 1, 0))
+    t3Points.push(new THREE.Vector3(x + 0.5, y - 2, 0))
+    t3Points.push(new THREE.Vector3(x + 0.8, y - 2, 0))
+    t3Points.push(new THREE.Vector3(x + 1, y - 1.8, 0))
     // Horizontal line
-    t2Points.push(new THREE.Vector3(x + 0.5, y + 0.5, 0))
-    t2Points.push(new THREE.Vector3(x, y + 0.5, 0))
-    t2Points.push(new THREE.Vector3(x + 0.5, y + 0.5, 0))
-    t2Points.push(new THREE.Vector3(x + 1, y + 0.5, 0))
-    letters.push(new THREE.CatmullRomCurve3(t2Points))
+    t3Points.push(new THREE.Vector3(x + 0.5, y + 0.5, 0))
+    t3Points.push(new THREE.Vector3(x, y + 0.5, 0))
+    t3Points.push(new THREE.Vector3(x + 0.5, y + 0.5, 0))
+    t3Points.push(new THREE.Vector3(x + 1, y + 0.5, 0))
+    letters.push(new THREE.CatmullRomCurve3(t3Points))
     
     // "f" - fifth letter
     x += letterSpacing
